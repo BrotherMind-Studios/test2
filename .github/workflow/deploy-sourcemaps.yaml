@@ -1,0 +1,59 @@
+---
+name: 'Deploy sourcemaps'
+on:
+  workflow_dispatch:
+    inputs:
+      env:
+        description: 'The environment'
+        type: string
+        required: true
+      base_url:
+        description: 'The base url'
+        type: string
+        required: true
+      new_relic_app_id:
+        description: 'The new relic application id'
+        required: true
+        type: string
+      install_cmd:
+        description: "Specifies the install command to override npm ci."
+        required: false
+        type: string
+        default: "npm install"
+      build_cmd:
+        description: "Specifies the install command to override npm run build."
+        required: false
+        type: string
+        default: "npm run build"
+      new_relic-api_key:
+        description: "Specifies api key"
+        required: true
+        type: string
+
+        
+
+jobs:
+  upload-sourcemaps:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+          fetch-depth: 0
+
+      - name: npm install
+        run: ${{ inputs.install_cmd }}
+
+      - name: Build package
+        run: ${{ inputs.build_cmd }}
+
+      - name: Install publish-sourcemap
+        run: npm install -g @newrelic/publish-sourcemap
+
+      - name: Upload sourcemaps
+        run: |
+          for file in $(find .next/static/chunks -name "*.map"); do
+            js_file="${file%.map}"
+            echo "Uploading $file "
+            publish-sourcemap "$file" "${{ inputs.base_url }}${js_file#.}" --apiKey=${{ secrets.NEW_RELIC_API_USER_KEY }} --applicationId=${{ inputs.new_relic_app_id }}
+          done

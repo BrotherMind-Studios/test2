@@ -14,6 +14,9 @@ const geistMono = Geist_Mono({
 });
 
 export default function Home() {
+  const loginWithErrorOnClickHandler = () => {
+    throw new Error('Second error for New Relic sourcemaps');
+  };
   return (
     <>
       <Head>
@@ -41,6 +44,10 @@ export default function Home() {
             <li>Save and see your changes instantly.</li>
           </ol>
 
+
+          <button type="button" onClick={loginWithErrorOnClickHandler}>
+                Log in with ERROR
+              </button>
           <div className={styles.ctas}>
             <a
               className={styles.primary}
@@ -48,6 +55,8 @@ export default function Home() {
               target="_blank"
               rel="noopener noreferrer"
             >
+
+
               <Image
                 className={styles.logo}
                 src="/vercel.svg"
@@ -56,6 +65,7 @@ export default function Home() {
                 height={20}
               />
               Deploy now
+              
             </a>
             <a
               href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
