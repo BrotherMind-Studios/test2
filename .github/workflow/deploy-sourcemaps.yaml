@@ -1,12 +1,8 @@
 ---
-name: 'Deploy sourcemaps'
+name: 'Deploy sourcemaps2'
 on:
   workflow_dispatch:
     inputs:
-      env:
-        description: 'The environment'
-        type: string
-        required: true
       base_url:
         description: 'The base url'
         type: string
@@ -25,7 +21,7 @@ on:
         required: false
         type: string
         default: "npm run build"
-      new_relic-api_key:
+      new_relic_api_key:
         description: "Specifies api key"
         required: true
         type: string
@@ -55,5 +51,5 @@ jobs:
           for file in $(find .next/static/chunks -name "*.map"); do
             js_file="${file%.map}"
             echo "Uploading $file "
-            publish-sourcemap "$file" "${{ inputs.base_url }}${js_file#.}" --apiKey=${{ secrets.NEW_RELIC_API_USER_KEY }} --applicationId=${{ inputs.new_relic_app_id }}
+            publish-sourcemap "$file" "${{ inputs.base_url }}${js_file#.}" --apiKey=${{ inputs.new_relic_api_key }} --applicationId=${{ inputs.new_relic_app_id }}
           done
