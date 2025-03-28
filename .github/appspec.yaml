@@ -7,5 +7,5 @@ Resources:
       Properties:
         TaskDefinition: "image"
         LoadBalancerInfo:
-          ContainerName: login-ui
+          ContainerName: login-ui1
           ContainerPort: 3000

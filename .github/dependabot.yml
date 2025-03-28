@@ -9,7 +9,7 @@ updates:
   - package-ecosystem: 'npm'
     directory: '/'
     registries:
-      - npm-greatminds-github
+      - npm-greatminds1-github
     schedule:
       interval: 'weekly'
       day: 'monday'
