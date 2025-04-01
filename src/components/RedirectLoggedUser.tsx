@@ -1,5 +1,3 @@
-import { useState, useEffect } from 'react';
-
 const redirectLogged = ({  }) => {
   const loginWithErrorOnClickHandler = () => {
     const err = new Error('Report caught error to New Relic');
