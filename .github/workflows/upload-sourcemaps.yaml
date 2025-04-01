@@ -5,7 +5,7 @@
   
   jobs:
     deploy-sourcemaps:
-      uses: ./.github/workflows/deploy-sourcemaps.yml
+      uses: ./.github/workflows/deploy-sourcemaps.yaml
       with:
         base_url: 'https://dev2.greatminds.dev/user-management/_next/static/chunks'
         new_relic_app_id: '1082495492'
