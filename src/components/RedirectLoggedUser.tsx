@@ -1,6 +1,6 @@
 const redirectLogged = ({  }) => {
   const loginWithErrorOnClickHandler = () => {
-    const err = new Error('Report caught error to New Relic');
+    //const err = new Error('Report caught error to New Relic');
     // window?.newrelic.noticeError(err);
     throw new Error('Third error for New Relic sourcemaps');
   };
