@@ -1,0 +1,16 @@
+---
+  name: 'Call Deploy Sourcemaps'
+  on:
+    workflow_dispatch:
+  
+  jobs:
+    deploy-sourcemaps:
+      uses: ./.github/workflows/deploy-sourcemaps.yml
+      with:
+        base_url: 'https://dev2.greatminds.dev/user-management/_next/static/chunks'
+        new_relic_app_id: '1082495492'
+        install_cmd: 'npm install'
+        build_cmd: 'npm run build:with-sourcemaps'
+      secrets:
+        NEW_RELIC_API_USER_KEY: ${{ secrets.NEW_RELIC_API_USER_KEY }}
+  

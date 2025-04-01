@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:with-sourcemaps": "NEXT_PUBLIC_GENERATE_SOURCEMAPS=true next build",
     "start": "next start",
     "lint": "next lint"
   },
