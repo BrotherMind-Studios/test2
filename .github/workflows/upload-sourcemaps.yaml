@@ -2,6 +2,13 @@
   name: 'Call Deploy Sourcemaps'
   on:
     workflow_dispatch:
+      inputs:
+        environment:
+          type: choice
+          description: environment to deploy
+          options:
+            - dev
+            - test
   
   jobs:
     deploy-sourcemaps:
