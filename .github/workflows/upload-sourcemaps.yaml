@@ -14,8 +14,9 @@
     deploy-sourcemaps:
       uses: ./.github/workflows/deploy-sourcemaps.yaml
       with:
-        base_url: 'https://dev2.greatminds.dev/user-management/_next/static/chunks'
-        new_relic_app_id: '594563280'
+        env: ${{ github.event.inputs.environment }}
+        base_url: ${{ vars.NEW_RELIC_SOURCEMAPS_BASE_URL }}
+        new_relic_app_id: ${{ vars.NEW_RELIC_APP_ID }}
         install_cmd: 'npm install'
         build_cmd: 'npm run build:with-sourcemaps'
       secrets:
