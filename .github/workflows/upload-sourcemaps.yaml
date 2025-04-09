@@ -2,13 +2,19 @@
   name: 'Call Deploy Sourcemaps'
   on:
     workflow_dispatch:
+      inputs:
+        environment:
+          type: choice
+          description: environment to deploy
+          options:
+            - dev
+            - test
   
   jobs:
     deploy-sourcemaps:
       uses: ./.github/workflows/deploy-sourcemaps.yaml
       with:
-        base_url: 'https://dev2.greatminds.dev/user-management/_next/static/chunks'
-        new_relic_app_id: '594563280'
+        env: ${{ inputs.environment }}
         install_cmd: 'npm install'
         build_cmd: 'npm run build:with-sourcemaps'
       secrets:
