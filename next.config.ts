@@ -4,7 +4,7 @@ const isCI = process.env.CI === "true";
 const nextConfig: NextConfig = {
   /* config options here */
   reactStrictMode: true,
-  productionBrowserSourceMaps: process.env.NEXT_PUBLIC_GENERATE_SOURCEMAPS === "true",
+  productionBrowserSourceMaps: true,
 };
 
 export default nextConfig;
