@@ -15,8 +15,6 @@
       uses: ./.github/workflows/deploy-sourcemaps.yaml
       with:
         env: ${{ inputs.environment }}
-        base_url: ${{ vars.NEW_RELIC_SOURCEMAPS_BASE_URL }}
-        new_relic_app_id: ${{ vars.NEW_RELIC_APP_ID }}
         install_cmd: 'npm install'
         build_cmd: 'npm run build:with-sourcemaps'
       secrets:
