@@ -53,12 +53,12 @@ jobs:
 
       - name: print values
         run: |
-          echo "NR app: ${{ github.event.inputs.new_relic_app_id }} - ${{ inputs.new_relic_app_id }}"
+          echo "NR app: ${{ vars.NEW_RELIC_SOURCEMAPS_BASE_URL }} - ${{ vars.NEW_RELIC_APP_ID }}"
 
       - name: Upload sourcemaps
         run: |
           for file in $(find .next/static/chunks -name "*.map"); do
             js_file="${file%.map}"
             echo "Uploading $file "
-            publish-sourcemap "$file" "${{ inputs.base_url }}${js_file#.}" --apiKey=${{ secrets.NEW_RELIC_API_USER_KEY }} --applicationId=${{ inputs.new_relic_app_id }}
+            publish-sourcemap "$file" "${{ vars.NEW_RELIC_SOURCEMAPS_BASE_URL }}${js_file#.}" --apiKey=${{ secrets.NEW_RELIC_API_USER_KEY }} --applicationId=${{ vars.NEW_RELIC_APP_ID }}
           done
