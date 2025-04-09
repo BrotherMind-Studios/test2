@@ -7,14 +7,6 @@ on:
         description: 'The environment'
         type: string
         required: true
-      base_url:
-        description: 'The base url'
-        type: string
-        required: true
-      new_relic_app_id:
-        description: 'The new relic application id'
-        required: true
-        type: string
       install_cmd:
         description: "Specifies the install command to override npm ci."
         required: false
