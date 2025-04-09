@@ -3,6 +3,10 @@ name: 'Deploy sourcemaps'
 on:
   workflow_call:
     inputs:
+      env:
+        description: 'The environment'
+        type: string
+        required: true
       base_url:
         description: 'The base url'
         type: string
@@ -29,6 +33,7 @@ on:
 jobs:
   upload-sourcemaps:
     runs-on: ubuntu-latest
+    environment: ${{ inputs.env }}
     steps:
       - uses: actions/checkout@v4
         with:
