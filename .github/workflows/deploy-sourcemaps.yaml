@@ -51,6 +51,10 @@ jobs:
       - name: Install publish-sourcemap
         run: npm install -g @newrelic/publish-sourcemap
 
+      - name: print values
+        run: |
+          echo "NR app: ${{ github.event.inputs.new_relic_app_id }} - ${{ inputs.new_relic_app_id }}"
+
       - name: Upload sourcemaps
         run: |
           for file in $(find .next/static/chunks -name "*.map"); do
