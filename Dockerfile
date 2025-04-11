@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 
 # Primera etapa: build
-FROM node:slim AS build
+FROM node:22-alpine AS build
 
 # Crear directorio de trabajo
 WORKDIR /usr/app
@@ -20,7 +20,7 @@ RUN wget -O /usr/bin/dumb-init https://github.com/Yelp/dumb-init/releases/downlo
 RUN chmod +x /usr/bin/dumb-init
 
 # Segunda etapa: runtime
-FROM node:slim
+FROM node:22-alpine
 
 ENV NODE_ENV=production
 
