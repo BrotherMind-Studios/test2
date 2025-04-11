@@ -26,6 +26,7 @@ jobs:
     uses: ./.github/workflows/docker-build.yaml
     secrets: inherit
     with:
+      env: ${{ github.event.inputs.environment }}
       dockerhub_username: ${{ vars.DOCKERHUB_USERNAME }}
       dockerhub_repo: ${{ vars.DOCKERHUB_REPO }}
       tag-latest: true

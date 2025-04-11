@@ -3,6 +3,9 @@ name: Docker image build and publish
 on:
   workflow_call:
     inputs:
+      env:
+        required: true
+        type: string
       path:
         description: 'The build directory'
         type: string
@@ -61,6 +64,7 @@ on:
 jobs:
   docker:
     runs-on: ubuntu-latest
+    environment: ${{ inputs.env }}
     outputs:
       image_tag: ${{ steps.vars.outputs.sha_short }}
       image: ${{ steps.image-name.outputs.image }}
@@ -91,7 +95,12 @@ jobs:
           tags: |
             ${{ inputs.dockerhub_username }}/${{ inputs.dockerhub_repo }}:${{ inputs.custom-tag || steps.vars.outputs.sha_short }}
             ${{ inputs.tag-latest && format('{0}/{1}:latest', inputs.dockerhub_username, inputs.dockerhub_repo) || '' }}
-          build-args: ${{ inputs.build-args }}
+          # build-args: ${{ inputs.build-args }}
+          build-args: |
+            NEW_RELIC_SOURCEMAPS_BASE_URL=${{ vars.NEW_RELIC_SOURCEMAPS_BASE_URL }}
+          secrets: |
+            NEW_RELIC_API_USER_KEY=${{ secrets.NEW_RELIC_API_USER_KEY }}
+            NEW_RELIC_APP_ID=${{ vars.NEW_RELIC_APP_ID }}
 
       # - name: Copy sourcemaps after build
       #   run: |
