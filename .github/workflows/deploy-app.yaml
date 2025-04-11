@@ -33,12 +33,12 @@ jobs:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
         run: |
           echo "Deploying Docker image: ${{ inputs.image }}:${{ inputs.image_tag }}"
-          railway up \
-            --project ${{ vars.RAIL_PROJECT_ID }} \
-            --service docker \
-            --detach \
-            --env ${{ inputs.env }} \
-            --build-env IMAGE=${{ inputs.image }}:${{ inputs.image_tag }}
+          railway up -- \
+          --project ${{ vars.RAIL_PROJECT_ID }} \
+          --service docker \
+          --detach \
+          --env ${{ inputs.env }} \
+          --build-env IMAGE=${{ inputs.image }}:${{ inputs.image_tag }}
 
       - name: Done
         run: echo "Deployment completed successfully 🎉"
