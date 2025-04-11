@@ -28,15 +28,15 @@ jobs:
           curl -sSL https://railway.app/install.sh | sh
           echo "$HOME/.railway/bin" >> $GITHUB_PATH
 
-      - name: Link to existing Railway project
-        run: railway link --project ${{ vars.RAIL_PROJECT_ID }}
-
       - name: Deploy image to Railway
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
         run: |
           echo "Deploying Docker image: ${{ inputs.image }}:${{ inputs.image_tag }}"
-          railway up --service docker --detach \
+          railway up \
+            --project ${{ vars.RAIL_PROJECT_ID }} \
+            --service docker \
+            --detach \
             --env ${{ inputs.env }} \
             --build-env IMAGE=${{ inputs.image }}:${{ inputs.image_tag }}
 
