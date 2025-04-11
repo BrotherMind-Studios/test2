@@ -1,0 +1,47 @@
+name: Deploy App to Railway
+
+on:
+  workflow_call:
+    inputs:
+        env:
+            required: true
+            type: string
+        image:
+            required: true
+            type: string
+        image_tag:
+            required: true
+            type: string
+    secrets:
+        RAILWAY_TOKEN:
+            required: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Railway CLI
+        run: |
+          curl -sSL https://railway.app/install.sh | sh
+          echo "$HOME/.railway/bin" >> $GITHUB_PATH
+
+      - name: Authenticate with Railway
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+        run: railway login --token $RAILWAY_TOKEN
+
+      - name: Link to existing Railway project
+        run: railway link --project ${{ vars.RAIL_PROJECT_ID }}
+
+      - name: Deploy image to Railway
+        run: |
+          echo "Deploying Docker image: ${{ inputs.image }}:${{ inputs.image_tag }}"
+          railway up --service docker --detach \
+            --env ${{ inputs.env }} \
+            --build-env IMAGE=${{ inputs.image }}:${{ inputs.image_tag }}
+
+      - name: Done
+        run: echo "Deployment completed successfully 🎉"
