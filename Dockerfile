@@ -19,7 +19,7 @@ RUN if [ "$INCLUDE_SOURCEMAPS" = "true" ]; then \
       echo "building with source maps"; \
       npm run build:with-sourcemaps; \
     else \
-    echo "building without source maps"; \
+      echo "building without source maps"; \
       npm run build; \
     fi
 
