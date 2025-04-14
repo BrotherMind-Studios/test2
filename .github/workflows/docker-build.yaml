@@ -91,6 +91,11 @@ jobs:
           username: ${{ inputs.dockerhub_username }}
           password: ${{ secrets.DOCKERHUB_TOKEN  }}
 
+      - name: Enable BuildKit
+        run: |
+          export DOCKER_BUILDKIT=1
+          docker version
+
       - name: Build and push Docker image
         id: push
         uses: docker/build-push-action@v5
