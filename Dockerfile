@@ -26,15 +26,19 @@ RUN if [ "$INCLUDE_SOURCEMAPS" = "true" ]; then \
       npm run build; \
     fi
 
-RUN --mount=type=secret,id=NEW_RELIC_API_USER_KEY \
+# RUN --mount=type=secret,id=NEW_RELIC_API_USER_KEY \
+#     --mount=type=secret,id=NEW_RELIC_APP_ID \
+#     export NEW_RELIC_API_USER_KEY=$(cat /run/secrets/NEW_RELIC_API_USER_KEY) && \
+#     export NEW_RELIC_APP_ID=$(cat /run/secrets/NEW_RELIC_APP_ID) && \
+#     echo "NEW_RELIC_API_USER_KEY: $NEW_RELIC_API_USER_KEY" && \
+#     echo "NEW_RELIC_APP_ID: $NEW_RELIC_APP_ID"
+
+# Conditionally run build and publish sourcemaps if INCLUDE_SOURCEMAPS is true
+RUN -mount=type=secret,id=NEW_RELIC_API_USER_KEY \
     --mount=type=secret,id=NEW_RELIC_APP_ID \
     export NEW_RELIC_API_USER_KEY=$(cat /run/secrets/NEW_RELIC_API_USER_KEY) && \
     export NEW_RELIC_APP_ID=$(cat /run/secrets/NEW_RELIC_APP_ID) && \
-    echo "NEW_RELIC_API_USER_KEY: $NEW_RELIC_API_USER_KEY" && \
-    echo "NEW_RELIC_APP_ID: $NEW_RELIC_APP_ID"
-
-# Conditionally run build and publish sourcemaps if INCLUDE_SOURCEMAPS is true
-RUN if [ "$INCLUDE_SOURCEMAPS" = "true" ]; then \
+    if [ "$INCLUDE_SOURCEMAPS" = "true" ]; then \
       npm install -g @newrelic/publish-sourcemap && \
       for file in $(find .next/static/chunks -name "*.map"); do \
         js_file="${file%.map}"; \
