@@ -34,7 +34,7 @@ RUN if [ "$INCLUDE_SOURCEMAPS" = "true" ]; then \
 #     echo "NEW_RELIC_APP_ID: $NEW_RELIC_APP_ID"
 
 # Conditionally run build and publish sourcemaps if INCLUDE_SOURCEMAPS is true
-RUN -mount=type=secret,id=NEW_RELIC_API_USER_KEY \
+RUN --mount=type=secret,id=NEW_RELIC_API_USER_KEY \
     --mount=type=secret,id=NEW_RELIC_APP_ID \
     export NEW_RELIC_API_USER_KEY=$(cat /run/secrets/NEW_RELIC_API_USER_KEY) && \
     export NEW_RELIC_APP_ID=$(cat /run/secrets/NEW_RELIC_APP_ID) && \
