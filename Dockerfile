@@ -26,8 +26,10 @@ RUN if [ "$INCLUDE_SOURCEMAPS" = "true" ]; then \
       npm run build; \
     fi
 
-RUN --mount=type=secret,id=NEW_RELIC_API_USER_KEY,env=NEW_RELIC_API_USER_KEY \
-    --mount=type=secret,id=NEW_RELIC_APP_ID, env=NEW_RELIC_APP_ID \
+    RUN --mount=type=secret,id=NEW_RELIC_API_USER_KEY \
+    --mount=type=secret,id=NEW_RELIC_APP_ID \
+    export NEW_RELIC_API_USER_KEY=$(cat /run/secrets/NEW_RELIC_API_USER_KEY) && \
+    export NEW_RELIC_APP_ID=$(cat /run/secrets/NEW_RELIC_APP_ID) && \
     echo "NEW_RELIC_API_USER_KEY: $NEW_RELIC_API_USER_KEY" && \
     echo "NEW_RELIC_APP_ID: $NEW_RELIC_APP_ID"
 
