@@ -63,8 +63,11 @@ on:
         description: Docker registry (Docker Hub)
         value: docker.io
 
-    secrets:
+    secrets:      
       DOCKERHUB_TOKEN:
+        required: true
+      NEW_RELIC_API_USER_KEY:
+        description: 'The new relic API user key'
         required: true
 
 jobs:
@@ -109,10 +112,11 @@ jobs:
           build-args: | 
             INCLUDE_SOURCEMAPS=${{ github.event.inputs.upload-sourcemaps }} 
             NEWRELIC_SOURCEMAPS_BASE_URL=${{ vars.NEW_RELIC_SOURCEMAPS_BASE_URL }}
+            NEW_RELIC_APP_ID=${{ vars.NEW_RELIC_APP_ID }}
             ${{ inputs.build-args }}
           secrets: |
             NEW_RELIC_API_USER_KEY=${{ secrets.NEW_RELIC_API_USER_KEY }}
-            NEW_RELIC_APP_ID=${{ vars.NEW_RELIC_APP_ID }}
+            
 
       # - name: Create container to extract sourcemaps
       #   if: ${{ inputs.upload-sourcemaps }}

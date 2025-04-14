@@ -4,11 +4,9 @@ on:
   workflow_dispatch:
     inputs:
       environment:
-        type: choice
         description: environment to deploy
-        options:
-          - dev
-          - test
+        required: false
+        type: string
       custom-tag:
         description: 'Optional custom Docker tag'
         required: false
