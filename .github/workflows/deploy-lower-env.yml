@@ -38,7 +38,7 @@ jobs:
       custom-tag: ${{ github.event.inputs.custom-tag }}
       build-args: |
         INCLUDE_SOURCEMAPS=${{ github.event.inputs.upload-sourcemaps }} 
-        BASE_URL=${{ vars.NEW_RELIC_SOURCEMAPS_BASE_URL }}        
+        NEWRELIC_SOURCEMAPS_BASE_URL=${{ vars.NEW_RELIC_SOURCEMAPS_BASE_URL }}        
 
   deploy:
     uses: ./.github/workflows/deploy-app.yaml
