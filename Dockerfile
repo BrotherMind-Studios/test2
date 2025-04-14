@@ -47,6 +47,8 @@ RUN --mount=type=secret,id=NEW_RELIC_API_USER_KEY \
         echo "Uploading $file as ${base_url}${js_file}"; \
         echo "NEW_RELIC_API_USER_KEY: $NEW_RELIC_API_USER_KEY" && \
         echo "NEW_RELIC_APP_ID: $NEW_RELIC_APP_ID" && \
+        echo "NEWRELIC_SOURCEMAPS_BASE_URL: $base_url" && \
+        echo "Full: ${base_url}${js_file}" && \
         publish-sourcemap "$file" "${base_url}${js_file}" \
           --apiKey=$NEW_RELIC_API_USER_KEY \
           --applicationId=$NEW_RELIC_APP_ID; \
