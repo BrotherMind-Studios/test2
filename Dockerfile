@@ -13,6 +13,9 @@ WORKDIR /app
 # Copiar archivos de la app
 COPY --chown=node . .
 
+# install dependencies
+RUN npm ci --legacy-peer-deps
+
 # Instalar dependencias (sin usar GITHUB_TOKEN ni .npmrc privado)
 # Condicional: Ejecutar build:with-sourcemaps si INCLUDE_SOURCEMAPS es true
 RUN if [ "$INCLUDE_SOURCEMAPS" = "true" ]; then \
