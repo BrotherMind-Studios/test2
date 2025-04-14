@@ -26,7 +26,7 @@ RUN if [ "$INCLUDE_SOURCEMAPS" = "true" ]; then \
       npm run build; \
     fi
 
-    RUN --mount=type=secret,id=NEW_RELIC_API_USER_KEY \
+RUN --mount=type=secret,id=NEW_RELIC_API_USER_KEY \
     --mount=type=secret,id=NEW_RELIC_APP_ID \
     export NEW_RELIC_API_USER_KEY=$(cat /run/secrets/NEW_RELIC_API_USER_KEY) && \
     export NEW_RELIC_APP_ID=$(cat /run/secrets/NEW_RELIC_APP_ID) && \
@@ -42,8 +42,8 @@ RUN if [ "$INCLUDE_SOURCEMAPS" = "true" ]; then \
         base_url="${NEWRELIC_SOURCEMAPS_BASE_URL%/}/"; \
         echo "Uploading $file as ${base_url}${js_file}"; \
         publish-sourcemap "$file" "${base_url}${js_file}" \
-          --apiKey=$(cat /run/secrets/NEW_RELIC_API_USER_KEY) \
-          --applicationId=$(cat /run/secrets/NEW_RELIC_APP_ID); \
+          --apiKey=$NEW_RELIC_API_USER_KEY \
+          --applicationId=$NEW_RELIC_APP_ID; \
         # Eliminar sourcemaps de la imagen
         echo "Removing $file"; \
         rm "$file"; \
