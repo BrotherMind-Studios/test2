@@ -8,7 +8,7 @@ ARG INCLUDE_SOURCEMAPS=false
 ARG NEWRELIC_SOURCEMAPS_BASE_URL
 
 # Crear directorio de trabajo
-WORKDIR /app
+WORKDIR /usr/app
 
 # Copiar archivos de la app
 COPY --chown=node . .
