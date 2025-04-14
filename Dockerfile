@@ -41,6 +41,8 @@ RUN if [ "$INCLUDE_SOURCEMAPS" = "true" ]; then \
         js_file="_${js_file#.}"; \
         base_url="${NEWRELIC_SOURCEMAPS_BASE_URL%/}/"; \
         echo "Uploading $file as ${base_url}${js_file}"; \
+        echo "NEW_RELIC_API_USER_KEY: $NEW_RELIC_API_USER_KEY" && \
+        echo "NEW_RELIC_APP_ID: $NEW_RELIC_APP_ID" && \
         publish-sourcemap "$file" "${base_url}${js_file}" \
           --apiKey=$NEW_RELIC_API_USER_KEY \
           --applicationId=$NEW_RELIC_APP_ID; \
