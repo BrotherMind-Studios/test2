@@ -13,6 +13,11 @@ on:
         description: 'Optional custom Docker tag'
         required: false
         type: string
+      upload-sourcemaps:
+        description: 'Whether to upload sourcemaps to New Relic'
+        type: boolean
+        required: false
+        default: false
 
 permissions:
   id-token: write
@@ -31,6 +36,9 @@ jobs:
       dockerhub_repo: ${{ vars.DOCKERHUB_REPO }}
       tag-latest: true
       custom-tag: ${{ github.event.inputs.custom-tag }}
+      build-args: |
+        INCLUDE_SOURCEMAPS=${{ github.event.inputs.upload-sourcemaps }} 
+        BASE_URL=${{ vars.NEW_RELIC_SOURCEMAPS_BASE_URL }}        
 
   deploy:
     uses: ./.github/workflows/deploy-app.yaml

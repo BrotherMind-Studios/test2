@@ -12,6 +12,12 @@ on:
         default: '.'
         required: false
 
+      # upload-sourcemaps:
+      #   description: 'Whether to upload sourcemaps to New Relic'
+      #   type: boolean
+      #   required: false
+      #   default: false
+
       dockerfile:
         description: 'Dockerfile path from root'
         type: string
@@ -95,21 +101,34 @@ jobs:
           tags: |
             ${{ inputs.dockerhub_username }}/${{ inputs.dockerhub_repo }}:${{ inputs.custom-tag || steps.vars.outputs.sha_short }}
             ${{ inputs.tag-latest && format('{0}/{1}:latest', inputs.dockerhub_username, inputs.dockerhub_repo) || '' }}
-          # build-args: ${{ inputs.build-args }}
-          build-args: |
-            NEW_RELIC_SOURCEMAPS_BASE_URL=${{ vars.NEW_RELIC_SOURCEMAPS_BASE_URL }}
+          build-args: ${{ inputs.build-args }}
           secrets: |
             NEW_RELIC_API_USER_KEY=${{ secrets.NEW_RELIC_API_USER_KEY }}
             NEW_RELIC_APP_ID=${{ vars.NEW_RELIC_APP_ID }}
 
-      # - name: Copy sourcemaps after build
-      #   run: |
-      #     mkdir -p .sourcemaps
-      #     find . -type f -name '*.map' -exec cp --parents {} .sourcemaps/ \;
+      # - name: Create container to extract sourcemaps
+      #   if: ${{ inputs.upload-sourcemaps }}
+      #   run: docker create --name extract-sourcemaps ${{ inputs.dockerhub_username }}/${{ inputs.dockerhub_repo }}:${{ inputs.custom-tag || steps.vars.outputs.sha_short }}
+    
+      # - name: Copy sourcemaps from container
+      #   if: ${{ inputs.upload-sourcemaps }}
+      #   run: docker cp extract-sourcemaps:/app/.next/static ./sourcemaps
 
-      # - name: Remove sourcemaps
+      # - name: Upload sourcemaps to New Relic
+      #   if: ${{ inputs.upload-sourcemaps }}
       #   run: |
-      #     find . -type f -name '*.map' -exec rm -f {} \;
+      #     npm install -g @newrelic/publish-sourcemap
+      #     for file in $(find ./sourcemaps/chunks -name "*.map"); do
+      #       js_file="${file%.map}"
+      #       echo "Uploading $file"
+      #       publish-sourcemap "$file" "${{ vars.NEW_RELIC_SOURCEMAPS_BASE_URL }}/_next/static/${js_file#.}" \
+      #         --apiKey=${{ secrets.NEW_RELIC_API_USER_KEY }} \
+      #         --applicationId=${{ vars.NEW_RELIC_APP_ID }}
+      #     done
+
+      # - name: Cleanup sourcemaps
+      #   if: inputs.upload-sourcemaps == true
+      #   run: rm -rf ./sourcemaps
 
       - name: Set image output
         id: image-name
