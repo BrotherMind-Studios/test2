@@ -51,16 +51,17 @@ FROM node:22-alpine
 ENV NODE_ENV=production
 
 USER node
-# WORKDIR /srv/app
-WORKDIR /app
+WORKDIR /srv/app
+# WORKDIR /app
 
 # COPY --from=build --chown=node /usr/app/ .
 # Copiar solo lo necesario desde el build
-COPY --from=build /app/public ./public
-COPY --from=build /app/.next/standalone ./
-COPY --from=build /app/.next/static ./.next/static
-# COPY --from=build /app/.env ./.env
-COPY --from=build /app/package.json ./package.json
+# COPY --from=build /app/public ./public
+# COPY --from=build /app/.next/standalone ./
+# COPY --from=build /app/.next/static ./.next/static
+# # COPY --from=build /app/.env ./.env
+# COPY --from=build /app/package.json ./package.json
+COPY --from=build --chown=node /usr/app/ .
 
 EXPOSE 3000
 
