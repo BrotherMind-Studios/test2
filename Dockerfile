@@ -27,7 +27,7 @@ RUN if [ "$INCLUDE_SOURCEMAPS" = "true" ]; then \
     fi
 
 # Conditionally run build and publish sourcemaps if INCLUDE_SOURCEMAPS is true
-RUN if [ "$INCLUDE_SOURCEMAPS" = "true" ]; then \      
+RUN if [ "$INCLUDE_SOURCEMAPS" = "true" ]; then \
       --mount=type=secret,id=NEW_RELIC_API_USER_KEY \
       --mount=type=secret,id=NEW_RELIC_APP_ID \
       npm install -g @newrelic/publish-sourcemap && \
@@ -39,10 +39,10 @@ RUN if [ "$INCLUDE_SOURCEMAPS" = "true" ]; then \
         publish-sourcemap "$file" "${base_url}${js_file}" \
           --apiKey=$(cat /run/secrets/NEW_RELIC_API_USER_KEY) \
           --applicationId=$(cat /run/secrets/NEW_RELIC_APP_ID); \
-        # remove sourcemaps from the image
+        # Eliminar sourcemaps de la imagen
         echo "Removing $file"; \
         rm "$file"; \
-      done; \      
+      done; \
     fi
 
 # Segunda etapa: runtime
@@ -52,15 +52,7 @@ ENV NODE_ENV=production
 
 USER node
 WORKDIR /srv/app
-# WORKDIR /app
 
-# COPY --from=build --chown=node /usr/app/ .
-# Copiar solo lo necesario desde el build
-# COPY --from=build /app/public ./public
-# COPY --from=build /app/.next/standalone ./
-# COPY --from=build /app/.next/static ./.next/static
-# # COPY --from=build /app/.env ./.env
-# COPY --from=build /app/package.json ./package.json
 COPY --from=build --chown=node /usr/app/ .
 
 EXPOSE 3000
