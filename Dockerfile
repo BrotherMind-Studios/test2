@@ -26,10 +26,12 @@ RUN if [ "$INCLUDE_SOURCEMAPS" = "true" ]; then \
       npm run build; \
     fi
 
+RUN --mount=type=secret,id=NEW_RELIC_API_USER_KEY \
+    --mount=type=secret,id=NEW_RELIC_APP_ID \
+    echo "Secrets mounted"
+
 # Conditionally run build and publish sourcemaps if INCLUDE_SOURCEMAPS is true
 RUN if [ "$INCLUDE_SOURCEMAPS" = "true" ]; then \
-      --mount=type=secret,id=NEW_RELIC_API_USER_KEY \
-      --mount=type=secret,id=NEW_RELIC_APP_ID \
       npm install -g @newrelic/publish-sourcemap && \
       for file in $(find .next/static/chunks -name "*.map"); do \
         js_file="${file%.map}"; \
