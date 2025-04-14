@@ -26,9 +26,10 @@ RUN if [ "$INCLUDE_SOURCEMAPS" = "true" ]; then \
       npm run build; \
     fi
 
-RUN --mount=type=secret,id=NEW_RELIC_API_USER_KEY \
-    --mount=type=secret,id=NEW_RELIC_APP_ID \
-    echo "Secrets mounted"
+RUN --mount=type=secret,id=NEW_RELIC_API_USER_KEY,env=NEW_RELIC_API_USER_KEY \
+    --mount=type=secret,id=NEW_RELIC_APP_ID, env=NEW_RELIC_APP_ID \
+    echo "NEW_RELIC_API_USER_KEY: $NEW_RELIC_API_USER_KEY" && \
+    echo "NEW_RELIC_APP_ID: $NEW_RELIC_APP_ID"
 
 # Conditionally run build and publish sourcemaps if INCLUDE_SOURCEMAPS is true
 RUN if [ "$INCLUDE_SOURCEMAPS" = "true" ]; then \
