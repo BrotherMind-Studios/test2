@@ -33,7 +33,9 @@ jobs:
       dockerhub_repo: ${{ vars.DOCKERHUB_REPO }}
       tag-latest: true
       custom-tag: ${{ github.event.inputs.custom-tag }}
-      upload-sourcemaps: ${{ github.event.inputs.upload-sourcemaps }}
+      upload-sourcemaps: ${{ github.event.inputs.upload-sourcemaps == 'true' }}
+      build-args: |
+        NEW_RELIC_APP_ID='594563280'
     secrets:
       DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
       NEW_RELIC_API_USER_KEY: ${{ secrets.NEW_RELIC_API_USER_KEY_LOWER }}
