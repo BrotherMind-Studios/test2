@@ -33,6 +33,7 @@ jobs:
       dockerhub_repo: ${{ vars.DOCKERHUB_REPO }}
       tag-latest: true
       custom-tag: ${{ github.event.inputs.custom-tag }}
+      upload-sourcemaps: ${{ github.event.inputs.upload-sourcemaps }}
     secrets:
       DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
       NEW_RELIC_API_USER_KEY: ${{ secrets.NEW_RELIC_API_USER_KEY_LOWER }}
