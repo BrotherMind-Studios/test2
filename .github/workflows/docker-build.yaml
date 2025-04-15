@@ -69,7 +69,7 @@ on:
         required: true
       NEW_RELIC_API_USER_KEY:
         description: 'The new relic API user key'
-        required: true
+        required: false
 
 jobs:
   docker:
