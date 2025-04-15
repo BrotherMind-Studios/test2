@@ -27,13 +27,15 @@ permissions:
 jobs:
   docker:
     uses: ./.github/workflows/docker-build.yaml
-    secrets: inherit
     with:
       env: ${{ github.event.inputs.environment }}
       dockerhub_username: ${{ vars.DOCKERHUB_USERNAME }}
       dockerhub_repo: ${{ vars.DOCKERHUB_REPO }}
       tag-latest: true
       custom-tag: ${{ github.event.inputs.custom-tag }}
+    secrets:
+      DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+      NEW_RELIC_API_USER_KEY: ${{ secrets.NEW_RELIC_API_USER_KEY_LOWER }}
 
   deploy:
     uses: ./.github/workflows/deploy-app.yaml

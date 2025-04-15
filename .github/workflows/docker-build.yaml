@@ -4,7 +4,8 @@ on:
   workflow_call:
     inputs:
       env:
-        required: true
+        required: false
+        default: ''
         type: string
       path:
         description: 'The build directory'
