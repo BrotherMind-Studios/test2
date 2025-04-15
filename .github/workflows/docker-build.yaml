@@ -113,7 +113,6 @@ jobs:
           build-args: | 
             INCLUDE_SOURCEMAPS=${{ inputs.upload-sourcemaps }} 
             NEWRELIC_SOURCEMAPS_BASE_URL=${{ vars.NEW_RELIC_SOURCEMAPS_BASE_URL }}
-            NEW_RELIC_APP_ID=${{ vars.NEW_RELIC_APP_ID }}
             ${{ inputs.build-args }}
           secrets: |
             NEW_RELIC_API_USER_KEY=${{ secrets.NEW_RELIC_API_USER_KEY }}
